@@ -168,9 +168,8 @@ sudo apt install libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev -y
 
 ### 4.3 Clone and Setup Project (Pi 4B Optimized)
 ```bash
-# Copy your project files to /home/pi/Desktop/auto_irrigate
-# Or if using git:
-# git clone <your-repo-url> /home/pi/Desktop/auto_irrigate
+# Clone the project repository
+git clone https://github.com/nobody4t/auto-irregation.git /home/pi/Desktop/auto_irrigate
 
 cd /home/pi/Desktop/auto_irrigate
 source venv/bin/activate
@@ -488,12 +487,6 @@ sudo reboot
 # Use environment variables for secrets
 ```
 
-### 9.2 Firewall Setup
-```bash
-sudo ufw enable
-sudo ufw allow ssh
-sudo ufw allow 8000
-```
 
 ## 10. Maintenance
 
