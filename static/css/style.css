@@ -1,0 +1,421 @@
+/* body {
+	margin: 0;
+	padding: 0;
+	height: 100%;
+}
+
+html {
+	font-family: "微软雅黑";
+	-webkit-text-size-adjust: 100%;
+	-ms-text-size-adjust: 100%;
+} */
+
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%; /* 确保整个文档有 100% 的高度 */
+}
+
+body {
+	/* display: flex; */
+	background-color: #0b122e;
+	color: #fff;
+	/* position: relative; */
+	font-family: "微软雅黑";
+    /* height: 100%;
+    width: 100%; */
+}
+
+
+
+.titleon{
+	/* display: flex; */
+	width:100%;
+	height: 10%;
+	/* position: relative; */
+	background: url(../images/bg_top.png) center no-repeat ;
+	background-size: contain;
+}
+.titletxt{
+	font-size: 32px; 
+	color: #00f6ff; 
+	display: flex;
+	height: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.localtime {
+	font-size:20px; 
+	position: absolute;
+	right: 1%; 
+	top:2%;
+}
+
+.contentbox {
+    height: 90%;
+    width: calc(100% - 6px);
+    
+    /* background-color: #b4ac15; */
+    display: grid;
+    grid-template-columns: 0.2fr 0.8fr;
+}
+
+.datacontent {
+    padding-top: 10%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-right: #0e7bad solid 2px;
+}
+
+.data {
+    width: 100%;
+    height: 35%;
+    border-bottom: #0e7bad solid 2px;
+}
+
+.data >ul{
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    display: grid;
+    grid-template-rows: repeat(3, 1fr);
+}
+
+.data >ul >li{
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: 0.5fr 0.05fr 0.45fr;
+}
+
+.data >ul >li >p{
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+}
+
+.button1 {
+    height: 35px;
+    width: 80px;
+}
+
+
+/* ******************************** */
+.control {
+    height: 35%;
+    width: 100%;
+    /* background-color: aquamarine; */
+    display: grid;
+    grid-template-rows: 0.3fr 0.7fr;
+    border-bottom: #0e7bad solid 2px;
+}
+
+.valvecontrol {
+    height: 100%;
+    display: grid;
+    grid-template-columns: 0.5fr 0.5fr;
+}
+
+.valvecontrol >p{
+    padding: 0;
+    margin: 0;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+}
+
+.hardwareslider {
+    /* margin-bottom: 2%; */
+    margin-left: 10%;
+    width: 60px;
+    height: 30px;
+    background-color: #d1d1d1;
+    border-radius: 15px;
+    position: relative;
+}
+
+.hardwareslider input[type="checkbox"] {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.hardwareslider label {
+    display: block;
+    width: 30px;
+    height: 30px;
+    background-color: #ffffff;
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.hardwareslider input[type="checkbox"]:checked + label {
+    left: calc(100% - 30px);
+}
+
+
+
+.threshold{
+    height: 100%;
+    width: 100%;
+    
+}
+
+.threshold >ul{
+    margin: 0;
+    padding: 0;
+    display: grid;
+    height: 100%;
+    width: 100%;
+    grid-template-rows: repeat(3, 1fr);
+}
+
+.threshold >ul >li{
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    /* display: grid; */
+    /* grid-template-columns: 0.3fr 0.4fr 0.3fr; */
+}
+
+.threshold >ul >li >P{
+    
+    margin: 0;
+    padding: 0;
+    font-size: 24px;
+    margin-left: 10px;
+}
+
+.threshold >ul >li >input{
+    height: 24px;
+    width: 50px;
+    font-size: 24px;
+    margin-left: 10px;
+
+}
+
+.threshold >ul >li >button{
+    height: 30px;
+    width: 50px;
+    padding: 0;
+    margin: 0;
+    font-size: 18px;
+    margin-left: 10px;
+}
+
+.downloadreport {
+    height: 10%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    /* border-bottom: #0e7bad solid 2px; */
+    /* justify-content: center; */
+    /* display: grid;
+    grid-template-columns: 0.6fr 0.4fr; */
+}
+
+.downloadreport >input{
+    height: 30px;
+    width: 160px;
+    margin-left: 10px;
+}
+
+.downloadreport >button{
+    height: 30px;
+    width: 90px;
+    margin-left: 10px;
+}
+
+/* ************************************ */
+.videocontent {
+    height: 100%;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 0.8fr 0.2fr;
+}
+
+
+.videoshow{
+    height: 100%;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    /* list-style-type: none;
+    align-items: center;
+    justify-content: center; */
+    /* background-color: #0e7bad; */
+}
+
+.videoshow > img {
+    max-height: 76vh;
+    max-width: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    margin-top: 4vh;
+}
+
+.playpausebuttonbox{
+    /* height: 5vh; */
+    /* width: 100%; */
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* background-color: antiquewhite; */
+    /* margin-top: 2vh; */
+    position: absolute;
+    margin-top: 82vh;
+    margin-left: 65vh;
+}
+
+.playpausecontainer {
+    /* position: relative; */
+    width: 35px;
+    height: 35px;
+    /* bottom: 10%; */
+    /* left: 48%; */
+    /* border: 2px solid rgb(3, 3, 3); */
+    border: 2px solid #00f0ff;  /* 亮蓝色边框，科技感 */
+    /* background-color: rgba(0, 240, 255, 0.1); */
+    border-radius: 50%;
+    /* box-shadow: 0 0 10px rgba(0, 240, 255, 0.3); */
+    /* background-color: antiquewhite; */
+  }
+  
+  
+.playpausecontainer .playpausebutton {
+    border: none;
+    background: transparent;
+}
+
+.playpausecontainer .playpausebutton::before {
+    content: "\25BA";
+    position: relative;
+    /* top: -6px; */
+    bottom: 1px;
+    /* left: 1px; */
+    font-size: 30px;
+    /* border-radius: 2px; */
+    color: #00f0ff;
+}
+
+.playpausecontainer .playpausebutton.clicked::before {
+    content: "\007C""\007C";
+    position: relative;
+    top: 0.5px;
+    left: 5.5px;
+    font-size: 25px;
+    /* border-radius: 2px; */
+    color: #00f0ff;
+}
+
+
+.animalrecord{
+    height: 100%;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    list-style-type: none;
+    border-left: #0e7bad solid 2px;
+}
+
+.animalrecord >p{
+    height: 50px;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* background-color: aquamarine; */
+    font-size: 22px;
+    border-bottom: #0e7bad solid 2px;
+}
+
+.animalrecord >ul{
+    /* height: calc(100% - 50px); */
+    max-height: 81vh;
+    /* width: 100%; */
+    max-width: 34vh;
+    /* height: auto; */
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+/* 整体滚动条容器 */
+.animalrecord >ul::-webkit-scrollbar {
+    width: 4px;  /* 垂直滚动条宽度 */
+    height: 4px; /* 水平滚动条高度 */
+  }
+  
+  /* 滚动条轨道 */
+.animalrecord >ul::-webkit-scrollbar-track {
+    /* background: #f1f1f1; */
+    background: #888;
+    border-radius: 4px;
+    overflow: hidden;
+}
+  
+  /* 滚动条滑块 */
+.animalrecord >ul::-webkit-scrollbar-thumb {
+    /* background: #888; */
+    background: #f1f1f1d0;
+    border-radius: 3px;
+}
+  
+  /* 鼠标悬停时滑块样式 */
+.animalrecord >ul::-webkit-scrollbar-thumb:hover {
+    /* background: #555; */
+    background: #f1f1f1;
+}
+
+.animalrecord >ul >li >p{
+    width: 100%;
+    /* height: 100%; */
+    height: 30px;
+    /* max-height: 10px; */
+    padding: 0;
+    margin: 0;
+    /* margin-top: 4px; */
+    margin-left: 2px;
+    display: flex;
+    align-items: flex-end;
+    /* justify-content: center; */
+    font-size: 17px;
+    border-bottom: #0e7bad solid 1px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    /* direction: ltr; */
+}
+
+
+
+

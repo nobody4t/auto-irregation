@@ -1,0 +1,536 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>自动灌溉系统</title>
+		<link rel="stylesheet" href="{% static '/css/style.css' %}" />
+		<script type="text/javascript" src="{% static '/js/jquery-1.8.0.min.js' %}"></script>
+		<!-- <script type="text/javascript" src="{% static '/js/jquery.js' %}"></script> -->
+		<link rel="icon" href="{% static 'logo.png' %}" type="image/ico" />
+	</head>
+	<body>
+       
+		<div class="titleon">
+			<div class="titletxt">自动灌溉系统</div>
+			<div id="localtime" class="localtime">
+            </div>
+        </div>
+
+        <div class="contentbox">
+            <div class="datacontent">
+                <div class="data">
+                    <ul>
+                        <li>
+                            <p style="justify-content: right;">土壤温度: </p>
+                            <p></p>
+                            <p style="justify-content: left;" id="soiltemp">23.4℃</p>
+                        </li>
+                        <li>
+                            <p style="justify-content: right;">土壤湿度: </p>
+                            <p></p>
+                            <p style="justify-content: left;" id="soilhum">43.2%</p>
+                        </li>
+                        <div style="display: flex;align-items: center;justify-content: center;">
+                            <button class="button1" onclick="getnowdata()">检测数据</button>
+                        </div>  
+                    </ul>
+                </div>
+
+                <div class="control">
+                    <div class="valvecontrol">
+                        <p>水阀开关</p>
+                        <div style="display: flex;align-items: center;margin-top: 5%;">
+                            <div class="hardwareslider" id="switchcolor11">
+                                <input type="checkbox" id="switch11" />
+                                <label for="switch11"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="threshold">
+                        <ul>
+                            <li>
+                                <p>最大湿度(%):</p>
+                                <input id="maxhumthreshold"></input>
+                                <button onclick="changethreshold('change', 'max')">设置</button>
+                            </li>
+                            <li>
+                                <p>最小湿度(%):</p>
+                                <input id="minhumthreshold"></input>
+                                <button onclick="changethreshold('change', 'min')">设置</button>
+                            </li>
+                            <li>
+                                <p>采样间隔(分):</p>
+                                <input id="changeintervalinput"></input>
+                                <button onclick="setinterval('changeinterval')">设置</button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="downloadreport">
+                    <input type="date" class="Date1"
+                                id="selectreportdate" placeholder="请选择日期">
+                    <button onclick="generalanddownloadtxt()">生成&下载</button>
+                </div>
+            </div>
+            <div class="videocontent">
+                <div class="videoshow">
+                    <img id="videoshowbox"  controls src="" alt="Video Stream">
+                    <div class="playpausebuttonbox">
+                        <div class="playpausecontainer">
+                            <button class="playpausebutton" title="播放/暂停"></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="animalrecord">
+                    <p>危险动物记录</p>
+                    <ul id="showanimalrecordbox">
+                        <!-- <li><p>2025-06-1215:22:23狼</p></li> -->
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+
+
+
+		<script>
+
+            function generalanddownloadtxt(){
+                let report_date = document.getElementById('selectreportdate').value
+                // console.log(report_date)
+
+                var post_dict = {
+                    "date" : report_date,
+                }
+
+
+                $.ajax({
+                    url: "{% url 'generaltxt'%}",
+                    type: "POST",
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        content: post_dict
+                    }),
+                    success:function(response_data){
+                        if (response_data.message == "successful"){
+                            window.location.href = response_data.download_url;
+                            console.log("操作成功")
+                        }else{
+                            console.log("操作失败")
+                        }
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.error('Error:', textStatus, errorThrown);
+                    }
+                })
+            }
+
+
+            // // 全局WebSocket连接
+            // let animalSocket = null;
+
+            // // 初始化WebSocket连接
+            // function initWebSocket() {
+            //     const wsScheme = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
+            //     const wsPath = wsScheme + window.location.host + '/ws/animal-records';
+                
+            //     animalSocket = new WebSocket(wsPath);
+                
+            //     animalSocket.onopen = function(e) {
+            //         console.log('WebSocket连接已建立');
+            //     };
+                
+            //     animalSocket.onmessage = function(e) {
+            //         const data = JSON.parse(e.data);
+            //         const showbox = document.getElementById("showanimalrecordbox");
+                    
+            //         if (data.type === 'initial_records' || data.type === 'new_records' ) {
+            //             // console.log("new")
+            //             showbox.innerHTML = "";
+            //             data.data.time.forEach((time, index) => {
+            //                 addRecordToBox(time, data.data.record[index]);
+            //             });
+            //         }
+            //     };
+                
+            //     animalSocket.onclose = function(e) {
+            //         console.log('WebSocket连接关闭，尝试重新连接...');
+            //         setTimeout(initWebSocket, 5000); // 5秒后重连
+            //     };
+                
+            //     animalSocket.onerror = function(err) {
+            //         console.error('WebSocket错误:', err);
+            //     };
+            // }
+
+            // // 添加记录到显示框
+            // function addRecordToBox(time, record) {
+            //     const showbox = document.getElementById("showanimalrecordbox");
+            //     const li = document.createElement("li");
+            //     const p = document.createElement("p");
+                
+            //     // 格式化时间（替换T为空格）
+            //     const formattedTime = time.replace('T', ' ');
+            //     p.textContent = `${formattedTime} ${record}`;
+                
+            //     li.appendChild(p);
+            //     showbox.appendChild(li);
+            // }
+
+            // // 页面加载时初始化WebSocket
+            // document.addEventListener('DOMContentLoaded', function() {
+            //     initWebSocket();
+            // });
+
+            // // 页面离开时关闭连接
+            // window.addEventListener('beforeunload', function() {
+            //     if (animalSocket) {
+            //         animalSocket.close();
+            //     }
+            // });
+
+
+
+
+            var animal_buffer = {
+                "time" : [],
+                "record" : []
+            }
+            setInterval(flushanimalrecord, 2000);
+            document.addEventListener('DOMContentLoaded', flushanimalrecord);
+            function flushanimalrecord(){
+                let showbox = document.getElementById("showanimalrecordbox");
+
+                $.ajax({
+                    url: "{% url 'get30animalrecords'%}",
+                    type: "GET",
+                    success: function(response_data){
+                        if (response_data.message == "successful"){
+
+                            let record_data = response_data.data;
+                            if (animal_buffer.time[0]!=record_data.time[0]){
+                                showbox.innerHTML = ""
+                                animal_buffer = record_data;
+                                for (let i=0;i<record_data.time.length;i++){
+                                    let li_element = document.createElement("li");
+
+                                    let p_element = document.createElement("p");
+                                    p_element.textContent = record_data.time[i].replace('T', ' ') + " " + record_data.record[i]
+
+                                    li_element.appendChild(p_element)
+                                    showbox.appendChild(li_element)
+                                }
+                            }
+                        }else{
+                            console.log("get flushanimalrecord error")
+                        }
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.error('Error:', textStatus, errorThrown);
+                    }
+                })
+            }
+
+            changethreshold("get")
+            function changethreshold(operate, type){
+                var post_dict = {}
+                if (operate == "change"){
+                    max_threshold = parseFloat(document.getElementById("maxhumthreshold").value);
+                    min_threshold = parseFloat(document.getElementById("minhumthreshold").value);
+
+                    if (type == "min"){
+                        var threshold_value_str = document.getElementById("minhumthreshold").value;
+                    }else if(type == "max"){
+                        var threshold_value_str = document.getElementById("maxhumthreshold").value;
+                    }
+
+                    let threshold_value_num = Number(threshold_value_str);
+
+                    if (/^-?\d+(\.\d)?$/.test(threshold_value_str)) {
+                        console.log("是整数或一位小数");
+                        post_dict = {
+                            "type" : type,
+                            "value" : threshold_value_num,
+                        }
+                    } else {
+                        alert("输入的值不是整数或一位小数");
+                        post_dict = {}
+                        operate = "get";
+                    }
+
+                    if (max_threshold > 100){
+                        operate = "get";
+                        post_dict = {}
+                        alert("设置最大阈值应小于100%")
+                    }else if(min_threshold < 0){
+                        operate = "get";
+                        post_dict = {}
+                        alert("设置最小阈值应大于0%")
+                    }else if(max_threshold < min_threshold){
+                        operate = "get";
+                        post_dict = {}
+                        alert("❌最大阈值小于最小阈值")
+                    }
+                }
+                else if (operate == "get"){
+                    post_dict = {}
+                }
+
+                $.ajax({
+                    url: "{% url 'changethreshold'%}",
+                    type: "POST",
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        content: post_dict
+                    }),
+                    success:function(data){
+                        if (data.message == "successful"){
+                            document.getElementById('minhumthreshold').value = data.data.min;
+                            document.getElementById('maxhumthreshold').value = data.data.max;
+                            fetchInitialState('switch11', 'switchcolor11');
+                            if (operate == "change"){alert("操作成功")}
+                        }else{
+                            if (operate == "change"){alert("操作失败")}
+                        }
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.error('Error:', textStatus, errorThrown);
+                    }
+                })
+            }
+
+            function getnowdata(){
+                $.ajax({
+                    url: "{% url 'getnowdata'%}",
+                    type: "GET",
+                    success: function(response_data){
+                        soil_data = response_data.data
+                        document.getElementById("soiltemp").textContent = soil_data.temp + "℃"
+                        document.getElementById("soilhum").textContent = soil_data.hum + "%"
+                        fetchInitialState('switch11', 'switchcolor11');
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.error('Error:', textStatus, errorThrown);
+                    }
+                })
+            }
+
+            function getmysqldata(){
+                $.ajax({
+                    url: "{% url 'getmysqldata'%}",
+                    type: "GET",
+                    success: function(response_data){
+                        soil_data = response_data.data
+                        document.getElementById("soiltemp").textContent = soil_data.temp + "℃"
+                        document.getElementById("soilhum").textContent = soil_data.hum + "%"
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.error('Error:', textStatus, errorThrown);
+                    }
+                })
+            }
+            getmysqldata()
+
+
+            setinterval("getvalue")
+            function setinterval(type){
+                var post_dict = {}
+                if (type == "changeinterval"){
+                    let interval_str = document.getElementById('changeintervalinput').value;
+
+                    let interval_int = Number(interval_str);
+                    if (Number.isInteger(interval_int)) {
+                        console.log('整数');
+                        post_dict = {
+                            "type" : type,
+                            "value" : interval_int,
+                        }
+                    } else {
+                        alert("输入的值不是整数")
+                        post_dict = {
+                            "type" : "getvalue",
+                        }
+
+                        type = "getvalue";
+                    }
+
+
+                }
+
+                else if(type == "getvalue"){
+                    post_dict = {
+                        "type" : type,
+                    }
+                }
+
+                else{return;}
+
+                $.ajax({
+                    url: "{% url 'changeinterval'%}",
+                    type: "POST",
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        content: post_dict
+                    }),
+                    success:function(data){
+                        if (data.message == "successful"){
+                            document.getElementById('changeintervalinput').value = data.data.threshold;
+                            if (type == "changeinterval"){
+                                alert("操作成功")
+                            }
+                        }else{
+                            alert("操作失败")
+                        }
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.error('Error:', textStatus, errorThrown);
+                    }
+                })
+            }
+
+            function playpauseimages(){
+                var playbutton = document.querySelector('.playpausebutton');
+
+                function playVideo() {
+                    playbutton.classList.toggle('clicked');
+                    document.getElementById("videoshowbox").src = "{% url 'sendvideostream' %}"
+                }
+                function pauseVideo() {
+                    playbutton.classList.toggle('clicked');
+                    document.getElementById("videoshowbox").src = ""
+                }
+
+                playbutton.addEventListener('click', function () {
+                    if (playbutton.classList.contains('clicked')) {
+                        pauseVideo();
+                    } else {
+                        playVideo();
+                    }
+                });
+            }
+            playpauseimages()
+
+
+            function settime(element, day, type){
+                let date = new Date()
+                if (day=="yestoday"){
+                    date.setDate(date.getDate() - 1);
+                }
+
+                let yyyy = date.getFullYear();
+                let MM = (date.getMonth() + 1) < 10 ? ("0" + (date.getMonth() + 1)) : (date.getMonth() + 1);
+                let dd = date.getDate() < 10 ? ("0" + date.getDate()) : date.getDate();
+                let HH = date.getHours() < 10 ? ("0" + date.getHours()) : date.getHours();
+                let mm = date.getMinutes() < 10 ? ("0" + date.getMinutes()) : date.getMinutes();
+
+                let Day = "";
+
+                if (type=="type1"){
+                    Day = yyyy + '-' + MM + '-' + dd + 'T' + HH + ':' + mm;
+                }else if(type=="type2"){
+                    Day = yyyy + '-' + MM + '-' + (dd);
+                }
+
+                $(element).val(Day);
+                $(element).attr("max", Day);
+            }
+            // 检索特定时间传感器记录
+            settime('.Date1', "", "type2")
+
+
+
+            // 页面加载时获取初始状态
+            function fetchInitialState(data1, data2) {
+                var toggle = document.getElementById(data1);
+                var togglecls = document.getElementById(data2);
+
+
+                $.ajax({
+                    url: "{% url 'valvecontrol'%}",
+                    type: "POST",
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        content: {
+                            "operate": ""
+                        }
+                    }),
+                    success: function(data) {
+                        if (data.data.state !== undefined) {
+                            toggle.checked = data.data.state === "open";
+                            togglecls.style.backgroundColor = data.data.state === "open" ? '#003dc0' : '#d1d1d1';
+                        }
+                    },
+                    error: function() {
+                        console.error('获取初始状态失败');
+                        // 设置默认状态
+                        toggle.checked = false;
+                        togglecls.style.backgroundColor = '#d1d1d1';
+                    }
+                });
+            }
+            fetchInitialState('switch11', 'switchcolor11');
+
+            function switchfan(data1, data2) {
+                var toggle = document.getElementById(data1);
+                var togglecls = document.getElementById(data2);
+
+                togglecls.addEventListener('click', function(e) {
+                    if (e.target !== toggle) {
+                        toggle.checked = !toggle.checked;
+                        // toggle.dispatchEvent(new Event('change'));
+                        changebutton()
+                    }
+                });
+
+                function changebutton(){
+                    var operation = toggle.checked ? "open" : "close";
+                    var bgColor = toggle.checked ? '#003dc0' : '#d1d1d1';
+
+                    $.ajax({
+                        url: "{% url 'valvecontrol'%}",
+                        type: "POST",
+                        contentType: 'application/json',
+                        data: JSON.stringify({
+                            content: {
+                                "operate": operation
+                            }
+                        }),
+                        success: function(data) {
+                            if (data.message === "successful") {
+                                // 根据服务器返回的数据更新按钮状态
+                                if (data.data.state !== undefined) {
+                                    toggle.checked = data.data.state === "open";
+                                    togglecls.style.backgroundColor = data.data.state === "open" ? '#003dc0' : '#d1d1d1';
+                                } else {
+                                    // 如果没有返回状态，保持当前操作的状态
+                                    togglecls.style.backgroundColor = bgColor;
+                                }
+                                // alert("操作成功");
+                            } else {
+                                // 操作失败时恢复原来的状态
+                                toggle.checked = !toggle.checked;
+                                togglecls.style.backgroundColor = toggle.checked ? '#003dc0' : '#d1d1d1';
+                                // alert("操作失败");
+                            }
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            console.error('Error:', textStatus, errorThrown);
+                            // 发生错误时恢复原来的状态
+                            toggle.checked = !toggle.checked;
+                            togglecls.style.backgroundColor = toggle.checked ? '#003dc0' : '#d1d1d1';
+                            alert("请求失败，请重试");
+                        }
+                    });
+                }
+            }
+            switchfan('switch11', 'switchcolor11');
+
+		</script>
+
+        
+		<script type="text/javascript" src="{% static '/js/times.js' %}"></script>
+
+	</body>
+</html>

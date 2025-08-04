@@ -1,0 +1,15 @@
+django==4.2.7
+
+# mysqlclient==2.0.1 #使用sudo apt install libmysqlclient-dev安装
+pymysql==1.1.1
+
+
+django-cors-headers==4.5.0
+
+# geographiclib==2.0
+# geopy==2.4.1
+# shapely==2.0.6
+
+# dashscope==1.20.2
+
+# openpyxl==3.1.5

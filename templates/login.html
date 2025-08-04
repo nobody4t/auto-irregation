@@ -1,0 +1,101 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Agauto</title>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link rel="icon" href="{% static 'favicon.ico' %}" type="image/ico" />
+    <!-- <link rel="stylesheet" href="登录.css" /> -->
+  </head>
+  <style>
+    body {
+      background: url("{% static 'images/main-bj.jpg' %}") no-repeat center center fixed;
+      background-size: 100% 100%;
+    }
+    .blur-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.041);
+            backdrop-filter: blur(10px);
+            z-index: -1;
+        }
+    body {
+      width: 100%;
+      height: 100%;
+      /* font-family: 'Open Sans',sans-serif;    */
+      margin: 0;
+      /* background-color: rgb(232, 175, 175);  */
+    }
+    .login {
+      position: absolute;
+      /*用position 当浏览器缩小的时候,盒子位置不变  */
+      top: 50%;
+      left: 50%;
+      margin: -150px 0 0 -150px;
+      width: 300px;
+      height: 300px;
+    }
+
+    .login h1 {
+      color: rgb(15, 13, 13);
+      text-shadow: 0 0 10px;
+      letter-spacing: 1px;
+      text-align: center;
+      font-size: 2em;
+      margin: 0.67em 0;
+    }
+    #uname,
+    #pwd {
+      width: 278px;
+      height: 18px;
+      margin-bottom: 10px;
+      outline: none;
+      padding: 10px;
+      font-size: 13px;
+      color: #fff;
+      text-shadow: 1px 1px 1px;
+      border-top: 1px solid #312e3d;
+      border-left: 1px solid #312e3d;
+      border-right: 1px solid #312e3d;
+      border-bottom: 1px solid #56536a;
+      border-radius: 4px;
+      background-color: #3d3d4269;
+    }
+    #but {
+      width: 300px;
+      min-height: 20px;
+      /*设置段落的最小高度 */
+      display: block;
+      background-color: #34373d91;
+      border: 1px solid #62635f;
+      color: rgba(180, 179, 179, 0.664);
+      padding: 9px 14px;
+      font-size: 15px;
+      line-height: normal;
+      border-radius: 5px;
+      margin: 0;
+    }
+  </style>
+  <body>
+    <div class="blur-background"></div>
+    <div class="login">
+      <h1>Login</h1>
+      {% if error_message %}
+      <p>{{ error_message }}</p>
+      {% endif %}
+      <form action="{% url 'login' %}" method="post">
+        {% csrf_token %}
+        <input type="text" id="uname" name="username" value="" placeholder="用户名" /><br />
+        <input type="password" id="pwd" name="password" value="" placeholder="密码" /><br />
+        <input type="submit" id="but" value="登录" />
+      </form>
+    </div>
+  </body>
+
+</html>
