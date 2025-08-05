@@ -2,6 +2,16 @@
 
 A Django-based web application for monitoring and controlling an automated irrigation system with sensor data collection and animal detection capabilities.
 
+## ⚠️ Important Setup Warning
+
+**Please read carefully before hardware setup:**
+
+![Setup Warning](attention.png)
+
+**Key Points:**
+- **Water pump and soil sensor connections**: These interfaces look identical - **DO NOT reverse the connections**
+- **Connection sequence**: Complete ALL module connections (including network cable) **BEFORE** connecting the lithium battery interface
+
 ## Features
 
 - **Web Dashboard**: Real-time monitoring interface
