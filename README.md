@@ -6,9 +6,7 @@ A Django-based web application for monitoring and controlling an automated irrig
 
 **Please read carefully before hardware setup:**
 
-<div align="center">
-  <img src="attention.png" alt="Setup Warning" width="600">
-</div>
+![Setup Warning](attention.png)
 
 **Key Points:**
 - **Water pump and soil sensor connections**: These interfaces look identical - **DO NOT reverse the connections**
