@@ -1,15 +1,26 @@
-django==4.2.7
-
-# mysqlclient==2.0.1 #使用sudo apt install libmysqlclient-dev安装
+# Python 3.11+ required
+# Core Django framework
+django>=4.2.17,<5.0
 pymysql==1.1.1
+django-cors-headers>=4.5.0
 
+# WebSocket support for real-time features
+channels>=4.2.0
+asgiref>=3.7.0
 
-django-cors-headers==4.5.0
+# Computer vision and image processing
+opencv-python-headless>=4.8.0
 
-# geographiclib==2.0
-# geopy==2.4.1
-# shapely==2.0.6
+# GPIO control for Raspberry Pi
+RPi.GPIO>=0.7.1
 
-# dashscope==1.20.2
+# Serial communication for sensors
+pyserial>=3.5
 
-# openpyxl==3.1.5
+# HTTP requests for external APIs
+requests>=2.31.0
+
+# Optional: Development and testing
+# python-dotenv>=1.0.0  # Environment variables
+# pytest>=7.4.0         # Testing framework
+# pytest-django>=4.5.0  # Django testing integration
