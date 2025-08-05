@@ -17,6 +17,19 @@ A Django-based web application for monitoring and controlling an automated irrig
 - MySQL 5.7+
 - Django 4.2.17+
 
+## Hardware Connection
+
+For hardware setup, refer to the wiring diagram below:
+
+![Hardware Wiring Diagram](hardware.png)
+
+The diagram shows the connections between:
+- Raspberry Pi (main controller)
+- Camera module for video monitoring
+- Relay module for valve control
+- Soil sensor for environmental data
+- Network connectivity
+
 ## Quick Start
 
 ### 1. Clone Repository
