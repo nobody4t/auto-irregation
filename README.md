@@ -246,10 +246,3 @@ python manage.py migrate
 python manage.py showmigrations
 ```
 
-## License
-
-[Add your license information here]
-
-## Support
-
-[Add support contact information here]
