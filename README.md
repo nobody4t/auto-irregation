@@ -2,6 +2,46 @@
 
 This system automatically waters your plants, monitors temperature and humidity, detects animals, and provides a web interface to control everything from your phone or computer.
 
+## Getting Started - Connect Your Raspberry Pi
+
+**If you've never used a Raspberry Pi before, start here!**
+
+### What You Need
+- Raspberry Pi 4 (the small computer board)
+- MicroSD card (32GB+, already programmed with Raspberry Pi OS)
+- HDMI cable (connects to your TV or monitor)
+- USB keyboard and mouse
+- Power supply (USB-C cable for Pi 4)
+- Monitor or TV with HDMI input
+
+### Step 1: Connect Everything
+**Follow this order exactly:**
+
+1. **Insert the MicroSD card** into the Pi (small slot on the bottom)
+2. **Connect HDMI cable** from Pi to your TV/monitor
+3. **Plug in keyboard** to any USB port on the Pi
+4. **Plug in mouse** to any USB port on the Pi
+5. **Connect ethernet cable** (or set up WiFi later)
+6. **Turn on your TV/monitor** and set it to the HDMI input
+7. **Finally, plug in the power cable** - the Pi will start automatically
+
+### Step 2: First Boot
+- You should see a colorful desktop appear on your screen
+- Follow the welcome setup wizard:
+  - Choose your country and language
+  - Connect to WiFi (if not using ethernet)
+  - Update software (this takes 10-15 minutes)
+  - Create a user account (username: `pi`)
+
+### Step 3: Open Terminal
+- Look for a **black square icon** in the top menu bar
+- Click it to open "Terminal" (this is where you'll type commands)
+- You'll see something like: `pi@raspberrypi:~ $`
+
+**Now you're ready to install the irrigation system!**
+
+---
+
 ## ⚠️ IMPORTANT HARDWARE WARNING ⚠️
 
 **READ THIS BEFORE CONNECTING ANYTHING:**
